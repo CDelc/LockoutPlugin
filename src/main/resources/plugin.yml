@@ -1,0 +1,16 @@
+name: Lockout
+version: '${project.version}'
+main: com.mcplugin.cdelc.lockout.Lockout
+api-version: 1.18
+authors: [ Carden ]
+description: Adds minecraft lockout games to your server
+commands:
+  lockoutaddall:
+    description: Add all online players to the lockout game
+    usage: /lockoutaddall
+  lockoutadd:
+    description: Add the specified player to the lockout game
+    usage: /lockoutadd [player]
+  lockoutremove:
+    description: Remove the specified player from the lockout game
+    usage: /lockoutremove [player]
