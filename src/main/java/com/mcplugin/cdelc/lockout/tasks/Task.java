@@ -18,6 +18,8 @@ public abstract class Task implements Listener {
     }
 
     public abstract void onEvent(Event e);
+    public abstract String getKeyword();
+    public abstract String getDescription();
 
     protected void complete(Player p){
         if(isComplete) return;
