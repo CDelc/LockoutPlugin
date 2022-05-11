@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerStatisticIncrementEvent;
 
 public class TaskListener implements Listener {
 
@@ -66,5 +67,8 @@ public class TaskListener implements Listener {
     public void onEffect(EntityPotionEffectEvent e){
         game.sendEventToTasks(e);
     }
+
+    @EventHandler
+    public void onPlayerStatisticIncrement(PlayerStatisticIncrementEvent e) { game.sendEventToTasks(e); }
 
 }
