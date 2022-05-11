@@ -14,10 +14,11 @@ public class AdvancementTask extends Task {
     String targetAdvancement;
     String advancementDesc;
 
-    public AdvancementTask(GameInstance instance, String advancementKey, String advancementTitle) {
+    public AdvancementTask(GameInstance instance, String advancementKey, String advancementTitle, int diff) {
         super(instance);
         targetAdvancement = advancementKey;
         advancementDesc = advancementTitle;
+        this.difficulty = diff;
     }
 
     @Override
@@ -43,4 +44,5 @@ public class AdvancementTask extends Task {
     public String getDescription() {
         return "Get the " + advancementDesc + " advancement.";
     }
+
 }

@@ -12,9 +12,10 @@ public class BreedTask extends Task {
 
     EntityType breedTarget;
 
-    public <T extends LivingEntity> BreedTask(GameInstance instance, EntityType targetType) {
+    public <T extends LivingEntity> BreedTask(GameInstance instance, EntityType targetType, int diff) {
         super(instance);
         breedTarget = targetType;
+        difficulty = diff;
     }
 
     @Override
