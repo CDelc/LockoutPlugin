@@ -20,6 +20,7 @@ public abstract class Task implements Listener {
     public abstract void onEvent(Event e);
 
     protected void complete(Player p){
+        if(isComplete) return;
         isComplete = true;
         parentGame.completeTask(this, p);
     }
