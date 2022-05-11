@@ -5,6 +5,8 @@ import com.mcplugin.cdelc.lockout.Lockout;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 
 public class TaskListener implements Listener {
@@ -22,6 +24,16 @@ public class TaskListener implements Listener {
 
     @EventHandler
     public void onAdvancementCompletion(PlayerAdvancementDoneEvent e){
+        game.sendEventToTasks(e);
+    }
+
+    @EventHandler
+    public void onEntityPickupItemEvent(EntityPickupItemEvent e) {
+        game.sendEventToTasks(e);
+    }
+
+    @EventHandler
+    public void onInventoryCloseEvent(InventoryCloseEvent e) {
         game.sendEventToTasks(e);
     }
 
