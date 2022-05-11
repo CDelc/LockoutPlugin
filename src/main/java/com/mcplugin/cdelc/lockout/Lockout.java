@@ -1,10 +1,7 @@
 package com.mcplugin.cdelc.lockout;
 
-import com.mcplugin.cdelc.lockout.commands.Lockoutadd;
-import com.mcplugin.cdelc.lockout.commands.Lockoutaddall;
-import com.mcplugin.cdelc.lockout.commands.Lockoutremove;
-import com.mcplugin.cdelc.lockout.commands.TaskListener;
-import com.mcplugin.cdelc.lockout.tasks.Task;
+import com.mcplugin.cdelc.lockout.commands.*;
+import com.mcplugin.cdelc.lockout.tasks.TaskListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Lockout extends JavaPlugin {
@@ -18,6 +15,7 @@ public final class Lockout extends JavaPlugin {
         this.getCommand("lockoutaddall").setExecutor(new Lockoutaddall(this));
         this.getCommand("lockoutadd").setExecutor(new Lockoutadd(this));
         this.getCommand("lockoutremove").setExecutor(new Lockoutremove(this));
+        this.getCommand("debugtest").setExecutor(new DebugTest(this));
         getServer().getPluginManager().registerEvents(new TaskListener(this), this);
 
     }
