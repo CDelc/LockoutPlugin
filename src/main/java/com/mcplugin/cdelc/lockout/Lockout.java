@@ -11,6 +11,7 @@ public final class Lockout extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         lockoutgame = null;
         this.getCommand("lockoutaddall").setExecutor(new Lockoutaddall(this));
         this.getCommand("lockoutadd").setExecutor(new Lockoutadd(this));
