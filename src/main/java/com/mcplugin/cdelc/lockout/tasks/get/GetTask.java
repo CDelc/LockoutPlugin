@@ -39,6 +39,16 @@ public class GetTask extends Task {
         }
     }
 
+    @Override
+    public String getKeyword() {
+        return "get" + itemGoal.getAmount() + "" + itemGoal.getType();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Get " + itemGoal.getAmount() + " " + itemGoal.getType();
+    }
+
     private boolean playerInventorySufficient(Player player) {
         Collection<? extends ItemStack> heldItems =
                 player.getInventory().all(itemGoal.getData().getItemType()).values();

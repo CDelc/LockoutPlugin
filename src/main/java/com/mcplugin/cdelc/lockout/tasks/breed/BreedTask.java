@@ -32,4 +32,14 @@ public class BreedTask extends Task {
             }
         }
     }
+
+    @Override
+    public String getKeyword() {
+        return "breed" + breedTarget.name();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Breed a " + breedTarget.name();
+    }
 }

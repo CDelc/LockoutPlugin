@@ -25,4 +25,14 @@ public class CraftTask extends Task {
             }
         }
     }
+
+    @Override
+    public String getKeyword() {
+        return "craft" + craftGoal.getType();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Craft " + craftGoal.getType();
+    }
 }

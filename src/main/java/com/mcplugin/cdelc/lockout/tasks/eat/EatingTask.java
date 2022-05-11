@@ -25,4 +25,14 @@ public class EatingTask extends Task {
             }
         }
     }
+
+    @Override
+    public String getKeyword() {
+        return "eat" + eatGoal.getType().name();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Eat " + eatGoal.getType().name();
+    }
 }

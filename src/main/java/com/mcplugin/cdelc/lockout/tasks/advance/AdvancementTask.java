@@ -12,10 +12,12 @@ import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 public class AdvancementTask extends Task {
 
     String targetAdvancement;
+    String advancementDesc;
 
-    public AdvancementTask(GameInstance instance, String advancementKey) {
+    public AdvancementTask(GameInstance instance, String advancementKey, String advancementTitle) {
         super(instance);
         targetAdvancement = advancementKey;
+        advancementDesc = advancementTitle;
     }
 
     @Override
@@ -29,5 +31,16 @@ public class AdvancementTask extends Task {
                 this.complete(completer);
             }
         }
+    }
+
+
+    @Override
+    public String getKeyword() {
+        return advancementDesc;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Get the " + advancementDesc + " advancement.";
     }
 }

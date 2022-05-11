@@ -30,4 +30,14 @@ public class BlockBreakTask extends Task {
 
         }
     }
+
+    @Override
+    public String getKeyword() {
+        return "break" + block.name();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Break a " + block.name() + " block.";
+    }
 }

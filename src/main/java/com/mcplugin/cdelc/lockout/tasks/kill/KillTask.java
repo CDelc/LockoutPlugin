@@ -30,4 +30,14 @@ public class KillTask extends Task {
             }
         }
     }
+
+    @Override
+    public String getKeyword() {
+        return "kill" + killTarget.name();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Kill a " + killTarget.name();
+    }
 }

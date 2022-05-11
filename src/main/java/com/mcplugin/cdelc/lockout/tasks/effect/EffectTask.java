@@ -33,4 +33,14 @@ public class EffectTask extends Task {
             }
         }
     }
+
+    @Override
+    public String getKeyword() {
+        return "effect" + effect.getType().getName();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Get the " + effect.getType().getName() + " effect.";
+    }
 }
