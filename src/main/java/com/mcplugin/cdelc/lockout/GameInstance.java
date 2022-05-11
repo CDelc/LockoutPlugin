@@ -2,6 +2,7 @@ package com.mcplugin.cdelc.lockout;
 
 import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -38,6 +39,10 @@ public class GameInstance  {
         numPlayers = players.size();
         if(!rc) return false;
         else return true;
+    }
+
+    public void sendEventToTasks(Event e){
+        for(Task t : tasks) t.onEvent(e);
     }
 
     /**
