@@ -10,14 +10,17 @@ import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 public abstract class Task implements Listener {
 
     GameInstance parentGame;
+    boolean isComplete;
 
     public Task(GameInstance instance){
         parentGame = instance;
+        isComplete = false;
     }
 
     public abstract void onEvent(Event e);
 
     protected void complete(Player p){
+        isComplete = true;
         parentGame.completeTask(this, p);
     }
 
