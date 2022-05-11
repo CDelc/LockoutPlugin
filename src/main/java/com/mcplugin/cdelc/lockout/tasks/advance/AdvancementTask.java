@@ -1,6 +1,7 @@
-package com.mcplugin.cdelc.lockout.tasks;
+package com.mcplugin.cdelc.lockout.tasks.advance;
 
 import com.mcplugin.cdelc.lockout.GameInstance;
+import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.advancement.Advancement;
@@ -23,9 +24,9 @@ public class AdvancementTask extends Task {
             PlayerAdvancementDoneEvent event = (PlayerAdvancementDoneEvent) e;
 
             Advancement advancement = event.getAdvancement();
-            Player completor = event.getPlayer();
+            Player completer = event.getPlayer();
             if(advancement.getKey().getKey().equals(targetAdvancement)) {
-                this.complete(completor);
+                this.complete(completer);
             }
         }
     }

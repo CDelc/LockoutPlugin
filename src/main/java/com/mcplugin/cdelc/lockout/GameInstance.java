@@ -4,7 +4,7 @@ import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class GameInstance  {
@@ -21,13 +21,17 @@ public class GameInstance  {
     boolean pvp;
     boolean compass;
 
-    HashSet<? extends Task> tasks = new HashSet<Task>();
+    HashSet<Task> selectedTasks = new HashSet<Task>();
+    ArrayList<Task> allTasks = new ArrayList<Task>();
 
     public GameInstance(){
         isRunning = false;
         players = new HashSet<Player>();
         numPlayers = players.size();
+        TasksetGenerator taskGetter = new TasksetGenerator(this);
+        taskGetter.populateTaskset(allTasks);
     }
+
 
     public void addPlayer(Player p){
         if(!isRunning) players.add(p);
@@ -42,7 +46,7 @@ public class GameInstance  {
     }
 
     public void sendEventToTasks(Event e){
-        for(Task t : tasks) t.onEvent(e);
+        for(Task t : selectedTasks) t.onEvent(e);
     }
 
     /**
@@ -57,8 +61,6 @@ public class GameInstance  {
      * @return Success/failure
      */
     public boolean start(){
-
-
 
         isRunning = true;
         return true;

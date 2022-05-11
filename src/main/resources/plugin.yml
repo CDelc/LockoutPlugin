@@ -14,3 +14,6 @@ commands:
   lockoutremove:
     description: Remove the specified player from the lockout game
     usage: /lockoutremove [player]
+  debugtest:
+    description: Undefined Behavior
+    usage: /debugtest

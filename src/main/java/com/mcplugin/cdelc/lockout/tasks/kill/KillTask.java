@@ -1,6 +1,7 @@
-package com.mcplugin.cdelc.lockout.tasks;
+package com.mcplugin.cdelc.lockout.tasks.kill;
 
 import com.mcplugin.cdelc.lockout.GameInstance;
+import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.entity.EntityCategory;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -16,9 +17,9 @@ public class KillTask extends Task {
 
     Sheep s;
 
-    public KillTask(GameInstance instance, Class type) {
+    public <T extends LivingEntity> KillTask(GameInstance instance, T type) {
         super(instance);
-        killTarget = type;
+        killTarget = type.getClass();
     }
 
     @Override

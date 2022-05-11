@@ -1,6 +1,7 @@
-package com.mcplugin.cdelc.lockout.tasks;
+package com.mcplugin.cdelc.lockout.tasks.get;
 
 import com.mcplugin.cdelc.lockout.GameInstance;
+import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

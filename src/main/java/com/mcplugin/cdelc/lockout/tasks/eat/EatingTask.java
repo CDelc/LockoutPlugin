@@ -1,6 +1,7 @@
-package com.mcplugin.cdelc.lockout.tasks;
+package com.mcplugin.cdelc.lockout.tasks.eat;
 
 import com.mcplugin.cdelc.lockout.GameInstance;
+import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
