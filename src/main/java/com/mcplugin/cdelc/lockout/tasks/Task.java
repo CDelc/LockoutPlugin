@@ -11,6 +11,7 @@ public abstract class Task implements Listener {
 
     GameInstance parentGame;
     boolean isComplete;
+    protected int difficulty;
 
     public Task(GameInstance instance){
         parentGame = instance;
@@ -20,6 +21,9 @@ public abstract class Task implements Listener {
     public abstract void onEvent(Event e);
     public abstract String getKeyword();
     public abstract String getDescription();
+    public int getDifficulty(){
+        return difficulty;
+    }
 
     protected void complete(Player p){
         if(isComplete) return;

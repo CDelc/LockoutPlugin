@@ -15,9 +15,10 @@ public class GetTask extends Task {
 
     ItemStack itemGoal;
 
-    public GetTask(GameInstance game, ItemStack itemGoal) {
+    public GetTask(GameInstance game, ItemStack itemGoal, int diff) {
         super(game);
         this.itemGoal = itemGoal;
+        difficulty = diff;
     }
 
     @Override
@@ -47,6 +48,11 @@ public class GetTask extends Task {
     @Override
     public String getDescription() {
         return "Get " + itemGoal.getAmount() + " " + itemGoal.getType();
+    }
+
+    @Override
+    public int getDifficulty() {
+        return 0;
     }
 
     private boolean playerInventorySufficient(Player player) {
