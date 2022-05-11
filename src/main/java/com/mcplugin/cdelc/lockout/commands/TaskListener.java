@@ -6,7 +6,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 
 public class TaskListener implements Listener {
 
@@ -28,6 +32,26 @@ public class TaskListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e){
+        game.sendEventToTasks(e);
+    }
+  
+    @EventHandler
+    public void onEntityPickupItemEvent(EntityPickupItemEvent e) {
+        game.sendEventToTasks(e);
+    }
+
+    @EventHandler
+    public void onInventoryCloseEvent(InventoryCloseEvent e) {
+        game.sendEventToTasks(e);
+    }
+
+    @EventHandler
+    public void onPlayerItemConsumeEvent(PlayerItemConsumeEvent e) {
+        game.sendEventToTasks(e);
+    }
+
+    @EventHandler
+    public void onCraftItemEvent(CraftItemEvent e) {
         game.sendEventToTasks(e);
     }
 
