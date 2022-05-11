@@ -12,9 +12,10 @@ public class BlockBreakTask extends Task {
 
     Material block;
 
-    public BlockBreakTask(GameInstance instance, Material type) {
+    public BlockBreakTask(GameInstance instance, Material type, int diff) {
         super(instance);
         block = type;
+        difficulty = diff;
     }
 
     @Override

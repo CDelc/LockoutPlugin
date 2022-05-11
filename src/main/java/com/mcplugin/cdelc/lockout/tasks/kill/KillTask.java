@@ -14,18 +14,19 @@ public class KillTask extends Task {
 
     Sheep s;
 
-    public KillTask(GameInstance instance, EntityType targetType) {
+    public KillTask(GameInstance instance, EntityType targetType, int diff) {
         super(instance);
         killTarget = targetType;
+        difficulty = diff;
     }
 
     @Override
     public void onEvent(Event e) {
-        if(e instanceof EntityDeathEvent){
+        if (e instanceof EntityDeathEvent) {
             EntityDeathEvent event = (EntityDeathEvent) e;
             LivingEntity target = event.getEntity();
             Player killer = target.getKiller();
-            if(killer != null && target.getType() == killTarget){
+            if (killer != null && target.getType() == killTarget) {
                 this.complete(killer);
             }
         }
@@ -40,4 +41,5 @@ public class KillTask extends Task {
     public String getDescription() {
         return "Kill a " + killTarget.name();
     }
+
 }
