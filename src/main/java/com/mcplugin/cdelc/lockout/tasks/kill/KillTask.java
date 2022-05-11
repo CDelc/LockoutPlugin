@@ -2,10 +2,7 @@ package com.mcplugin.cdelc.lockout.tasks.kill;
 
 import com.mcplugin.cdelc.lockout.GameInstance;
 import com.mcplugin.cdelc.lockout.tasks.Task;
-import org.bukkit.entity.EntityCategory;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Sheep;
+import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDeathEvent;
 
@@ -13,13 +10,13 @@ import javax.swing.text.html.parser.Entity;
 
 public class KillTask extends Task {
 
-    Class killTarget;
+    EntityType killTarget;
 
     Sheep s;
 
-    public <T extends LivingEntity> KillTask(GameInstance instance, T type) {
+    public KillTask(GameInstance instance, EntityType targetType) {
         super(instance);
-        killTarget = type.getClass();
+        killTarget = targetType;
     }
 
     @Override
@@ -28,7 +25,7 @@ public class KillTask extends Task {
             EntityDeathEvent event = (EntityDeathEvent) e;
             LivingEntity target = event.getEntity();
             Player killer = target.getKiller();
-            if(killer != null && target.getClass().isInstance(killTarget)){
+            if(killer != null && target.getType() == killTarget){
                 this.complete(killer);
             }
         }
