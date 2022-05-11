@@ -12,10 +12,11 @@ public class StatisticTask extends Task {
     Statistic statisticType;
     int targetValue;
 
-    public StatisticTask(GameInstance instance, Statistic statisticType, int targetValue) {
+    public StatisticTask(GameInstance instance, Statistic statisticType, int targetValue, int diff) {
         super(instance);
         this.statisticType = statisticType;
         this.targetValue = targetValue;
+        difficulty = diff;
     }
 
     @Override
@@ -30,5 +31,15 @@ public class StatisticTask extends Task {
                 }
             }
         }
+    }
+
+    @Override
+    public String getKeyword() {
+        return statisticType.name() + ":" + targetValue;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Get the value of the " + statisticType.name() + " statistic to " + targetValue;
     }
 }
