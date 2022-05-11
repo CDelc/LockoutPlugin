@@ -13,6 +13,5 @@ public abstract class LockoutCommand implements CommandExecutor {
         instance = plugin;
     }
 
-    @Override
     public abstract boolean onCommand(CommandSender sender, Command command, String label, String[] args);
 }
