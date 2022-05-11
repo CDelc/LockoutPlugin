@@ -24,10 +24,7 @@ public abstract class Task implements Listener {
         parentGame.completeTask(this, p);
     }
 
-    @EventHandler
-    public void onAdvancementCompletion(PlayerAdvancementDoneEvent e){
-        onEvent(e);
-    }
+
 
 
 }
