@@ -48,12 +48,48 @@ public class GameInstance  {
     }
 
     /**
+     * Start the game
+     * @return Success/failure
+     */
+    public boolean start(){
+
+
+
+        isRunning = true;
+        return true;
+    }
+
+    /**
      * Do something once a task is completed by player p
      * @param complete
      * @param p
      */
     public void completeTask(Task complete, Player p){
 
+    }
+
+    public void setNumTasks(int numTasks) {
+        this.numTasks = numTasks;
+    }
+
+    public void setBorderSize(int borderSize) {
+        this.borderSize = borderSize;
+    }
+
+    public void setMinDiff(int minDiff) {
+        this.minDiff = minDiff;
+    }
+
+    public void setMaxDiff(int maxDiff) {
+        this.maxDiff = maxDiff;
+    }
+
+    public void setPvp(boolean pvp) {
+        this.pvp = pvp;
+    }
+
+    public void setCompass(boolean compass) {
+        this.compass = compass;
     }
 
 }
