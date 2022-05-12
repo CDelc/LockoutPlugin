@@ -1,9 +1,11 @@
 package com.mcplugin.cdelc.lockout;
 
 import com.mcplugin.cdelc.lockout.tasks.Task;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -30,6 +32,7 @@ public class GameInstance  {
         numPlayers = players.size();
         TasksetGenerator taskGetter = new TasksetGenerator(this);
         taskGetter.populateTaskset(allTasks);
+        selectTasks();
     }
 
 
@@ -53,7 +56,7 @@ public class GameInstance  {
      * Picks the tasks for the game and adds them to the tasks set.
      */
     public void selectTasks(){
-
+        for(Task t : allTasks) selectedTasks.add(t);
     }
 
     /**
@@ -72,7 +75,10 @@ public class GameInstance  {
      * @param p
      */
     public void completeTask(Task complete, Player p){
-
+        if(!players.contains(p)) return;
+        for(Player player : Bukkit.getServer().getOnlinePlayers()){
+            player.sendMessage(Color.CYAN + p.getDisplayName() + Color.WHITE + " has completed \n" + Color.YELLOW + complete.getDescription());
+        }
     }
 
     public void setNumTasks(int numTasks) {
