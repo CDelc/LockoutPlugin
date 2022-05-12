@@ -12,9 +12,8 @@ public class EatingTask extends Task {
     ItemStack eatGoal;
 
     public EatingTask(GameInstance instance, ItemStack eatGoal, int diff) {
-        super(instance);
+        super(instance, diff);
         this.eatGoal = eatGoal;
-        difficulty = diff;
     }
 
     @Override

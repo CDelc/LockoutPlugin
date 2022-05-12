@@ -15,8 +15,8 @@ public class GetMultipleTask extends Task {
 
     Collection<ItemStack> itemGoals;
 
-    public GetMultipleTask(GameInstance game, Collection<ItemStack> itemGoals) {
-        super(game);
+    public GetMultipleTask(GameInstance game, Collection<ItemStack> itemGoals, int diff) {
+        super(game, diff);
         this.itemGoals = itemGoals;
     }
 

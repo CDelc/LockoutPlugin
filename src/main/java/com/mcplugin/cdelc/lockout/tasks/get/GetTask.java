@@ -16,9 +16,8 @@ public class GetTask extends Task {
     ItemStack itemGoal;
 
     public GetTask(GameInstance game, ItemStack itemGoal, int diff) {
-        super(game);
+        super(game, diff);
         this.itemGoal = itemGoal;
-        difficulty = diff;
     }
 
     @Override
