@@ -4,6 +4,7 @@ import com.mcplugin.cdelc.lockout.GameInstance;
 import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import javax.swing.text.html.parser.Entity;
@@ -11,6 +12,7 @@ import javax.swing.text.html.parser.Entity;
 public class KillTask extends Task {
 
     EntityType killTarget;
+    EntityDamageEvent.DamageCause desiredCause;
 
     Sheep s;
 
@@ -18,6 +20,14 @@ public class KillTask extends Task {
         super(instance);
         killTarget = targetType;
         difficulty = diff;
+        desiredCause = null;
+    }
+
+    public KillTask(GameInstance instance, EntityType targetType, int diff, EntityDamageEvent.DamageCause deathCause) {
+        super(instance);
+        killTarget = targetType;
+        difficulty = diff;
+        desiredCause = deathCause;
     }
 
     @Override
@@ -25,8 +35,11 @@ public class KillTask extends Task {
         if (e instanceof EntityDeathEvent) {
             EntityDeathEvent event = (EntityDeathEvent) e;
             LivingEntity target = event.getEntity();
+            EntityDamageEvent deathCause = target.getLastDamageCause();
             Player killer = target.getKiller();
-            if (killer != null && target.getType() == killTarget) {
+
+            if (killer != null && target.getType() == killTarget &&
+                    (desiredCause == null || deathCause.equals(desiredCause))) {
                 this.complete(killer);
             }
         }
@@ -34,12 +47,14 @@ public class KillTask extends Task {
 
     @Override
     public String getKeyword() {
-        return "kill" + killTarget.name();
+        if(desiredCause == null) return "kill" + killTarget.name();
+        else return "kill" + killTarget.name() + desiredCause.name();
     }
 
     @Override
     public String getDescription() {
-        return "Kill a " + killTarget.name();
+        if(desiredCause == null) return "Kill a " + killTarget.name();
+        else return "Kill a " + killTarget.name() + " with " + desiredCause.name();
     }
 
 }
