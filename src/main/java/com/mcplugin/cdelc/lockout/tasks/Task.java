@@ -7,15 +7,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 
+import java.util.Locale;
+
 public abstract class Task implements Listener {
 
     GameInstance parentGame;
     boolean isComplete;
     protected int difficulty;
 
-    public Task(GameInstance instance){
+    public Task(GameInstance instance, int diff){
         parentGame = instance;
         isComplete = false;
+        difficulty = diff;
     }
 
     public abstract void onEvent(Event e);
@@ -31,7 +34,14 @@ public abstract class Task implements Listener {
         parentGame.completeTask(this, p);
     }
 
-
+    protected static String makeEnumLookBetter(String enumString){
+        String output = "";
+        for(Character c : enumString.toCharArray()){
+            if(c.equals('_')) output += " ";
+            else output += c.toString().toLowerCase(Locale.ROOT);
+        }
+        return output;
+    }
 
 
 }

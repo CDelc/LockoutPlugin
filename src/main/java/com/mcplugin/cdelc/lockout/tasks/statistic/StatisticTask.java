@@ -13,10 +13,9 @@ public class StatisticTask extends Task {
     int targetValue;
 
     public StatisticTask(GameInstance instance, Statistic statisticType, int targetValue, int diff) {
-        super(instance);
+        super(instance, diff);
         this.statisticType = statisticType;
         this.targetValue = targetValue;
-        difficulty = diff;
     }
 
     @Override
