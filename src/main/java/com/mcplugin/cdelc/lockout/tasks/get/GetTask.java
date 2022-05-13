@@ -25,14 +25,14 @@ public class GetTask extends Task {
         if (e instanceof InventoryCloseEvent) {
             InventoryCloseEvent closeEvent = (InventoryCloseEvent) e;
             Player player = (Player) closeEvent.getPlayer();
-            if (playerInventorySufficient(player)) complete(player);
+            if (playerInventorySufficient(player, 0)) complete(player);
         }
         else if (e instanceof EntityPickupItemEvent) {
             EntityPickupItemEvent pickupEvent = (EntityPickupItemEvent) e;
             if (pickupEvent.getEntityType() == EntityType.PLAYER) {
                 Player player = (Player) pickupEvent.getEntity();
                 if(itemGoal.isSimilar(pickupEvent.getItem().getItemStack()) &&
-                        playerInventorySufficient(player)) {
+                        playerInventorySufficient(player, pickupEvent.getItem().getItemStack().getAmount())) {
                     complete(player);
                 }
             }
@@ -49,15 +49,10 @@ public class GetTask extends Task {
         return "Get " + itemGoal.getAmount() + " " + itemGoal.getType();
     }
 
-    @Override
-    public int getDifficulty() {
-        return 0;
-    }
-
-    private boolean playerInventorySufficient(Player player) {
+    private boolean playerInventorySufficient(Player player, int offset) {
         Collection<? extends ItemStack> heldItems =
                 player.getInventory().all(itemGoal.getData().getItemType()).values();
-        int itemCount = 0;
+        int itemCount = offset;
         for (ItemStack stack : heldItems) {
             itemCount += stack.getAmount();
         }

@@ -18,6 +18,7 @@ public class KillMobEndCrystal extends Task {
     public void onEvent(Event e) {
         if(e instanceof EntityDeathEvent && ((EntityDeathEvent) e).getEntity() instanceof Mob){
             EntityDeathEvent event = (EntityDeathEvent) e;
+            if(!(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent)) return;
             if(((EntityDamageByEntityEvent) event.getEntity().getLastDamageCause()).getDamager() instanceof EnderCrystal){
                 EnderCrystal crystal = (EnderCrystal)((EntityDamageByEntityEvent) event.getEntity().getLastDamageCause()).getDamager();
                 if(((EntityDamageByEntityEvent) crystal.getLastDamageCause()).getDamager() instanceof Player){
