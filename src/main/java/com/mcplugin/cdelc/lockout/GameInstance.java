@@ -1,5 +1,8 @@
 package com.mcplugin.cdelc.lockout;
 
+import com.mcplugin.cdelc.lockout.events.EventRegistry;
+import com.mcplugin.cdelc.lockout.events.TaskCompleteEvent;
+import com.mcplugin.cdelc.lockout.gui.LockoutGUI;
 import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -7,12 +10,17 @@ import org.bukkit.event.Event;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.Random;
 
 public class GameInstance  {
 
     HashSet<Player> players;
+    HashMap<Player, Integer> playerTaskCounts;
+    LockoutGUI gui;
+    EventRegistry lockoutEvents;
 
     boolean isRunning;
 
@@ -42,7 +50,10 @@ public class GameInstance  {
         borderSize = 2000;
 
         taskGetter.populateTaskset(allTasks);
-
+        playerTaskCounts = new HashMap<>();
+        gui = new LockoutGUI(this);
+        lockoutEvents = new EventRegistry();
+        lockoutEvents.register(gui);
     }
 
     public void clear(){
@@ -54,12 +65,18 @@ public class GameInstance  {
     }
 
     public void addPlayer(Player p){
-        if(!isRunning) players.add(p);
-        numPlayers = players.size();
+        if(!isRunning) {
+            players.add(p);
+            playerTaskCounts.put(p, 0);
+            gui.addPlayer(p);
+            numPlayers = players.size();
+        }
+
     }
 
     public boolean removePlayer(Player p){
         boolean rc = players.remove(p);
+        playerTaskCounts.remove(p);
         numPlayers = players.size();
         if(!rc) return false;
         else return true;
@@ -108,6 +125,7 @@ public class GameInstance  {
         }
 
         isRunning = true;
+        gui.show();
         return true;
     }
 
@@ -128,6 +146,16 @@ public class GameInstance  {
         for(Player player : Bukkit.getServer().getOnlinePlayers()){
             player.sendMessage(ChatColor.AQUA + p.getDisplayName() + ChatColor.WHITE + " has completed " + ChatColor.YELLOW + complete.getDescription());
         }
+        playerTaskCounts.put(p, playerTaskCounts.get(p) + 1);
+        lockoutEvents.raise(new TaskCompleteEvent(complete, p));
+    }
+
+    public Set<Task> getTasks() { return this.selectedTasks; }
+
+    public Set<Player> getPlayers() { return this.players; }
+
+    public int getNumTasksCompleted(Player p) {
+        return playerTaskCounts.get(p);
     }
 
     public int getMaxTasks(){
@@ -170,10 +198,6 @@ public class GameInstance  {
 
     public boolean running(){
         return isRunning;
-    }
-
-    public HashSet<Player> getPlayers(){
-        return players;
     }
 
     public String settingsToString(){
