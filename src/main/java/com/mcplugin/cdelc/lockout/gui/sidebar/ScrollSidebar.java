@@ -20,7 +20,7 @@ public class ScrollSidebar implements Consumer<PlayerItemHeldEvent> {
 
     public ScrollSidebar(Scoreboard scoreboard, String title, int lineCount) {
         this.scoreboard = scoreboard;
-        sidebar = scoreboard.registerNewObjective(super.toString(), super.toString(), title);
+        sidebar = scoreboard.registerNewObjective(super.toString(), "dummy", title);
         sidebar.setDisplaySlot(DisplaySlot.SIDEBAR);
         currentLine = 0;
         maxLine = Math.max(0, lineCount - 15);
