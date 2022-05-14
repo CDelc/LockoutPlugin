@@ -49,6 +49,10 @@ public class GameInstance  {
         allTasks.clear();
     }
 
+    public HashSet<Task> getSelectedTasks() {
+        return selectedTasks;
+    }
+
     public void addPlayer(Player p){
         if(!isRunning) players.add(p);
         numPlayers = players.size();
@@ -92,7 +96,7 @@ public class GameInstance  {
             p.setBedSpawnLocation(tmp);
             worlds.add(p.getLocation().getWorld());
             p.getInventory().clear(); //Clear inventory
-            p.setExp(0); //Clear xp
+            p.setLevel(0); p.setExp(0); //Clear xp
             p.setHealth(20); //Heal
             p.setFoodLevel(20); //Saturate
             for(PotionEffect eff : p.getActivePotionEffects()) p.removePotionEffect(eff.getType()); //Remove all potion effects
