@@ -23,6 +23,7 @@ public final class Lockout extends JavaPlugin {
         this.getCommand("lockoutsettings").setExecutor(new Lockoutsettings(this));
         this.getCommand("lockoutstart").setExecutor(new Lockoutstart(this));
         this.getCommand("lockoutstop").setExecutor(new Lockoutstop(this));
+        this.getCommand("listtasks").setExecutor(new ListTasks(this));
         getServer().getPluginManager().registerEvents(new TaskListener(this), this);
 
     }

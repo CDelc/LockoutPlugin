@@ -38,3 +38,6 @@ commands:
   lockoutstop:
     description: Stop the lockout game
     usage: /lockoutstop
+  listtasks:
+    description: List the tasks in the lockout game
+    usage: /listtasks
