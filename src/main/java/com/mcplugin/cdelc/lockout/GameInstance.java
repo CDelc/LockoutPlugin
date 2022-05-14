@@ -38,6 +38,7 @@ public class GameInstance  {
         numPlayers = players.size();
         TasksetGenerator taskGetter = new TasksetGenerator(this);
         taskGetter.populateTaskset(allTasks);
+        playerTaskCounts = new HashMap<>();
         gui = new LockoutGUI(this);
         lockoutEvents = new EventRegistry();
         lockoutEvents.register(gui);
@@ -47,6 +48,7 @@ public class GameInstance  {
     public void addPlayer(Player p){
         if(!isRunning) {
             players.add(p);
+            playerTaskCounts.put(p, 0);
             gui.addPlayer(p);
             numPlayers = players.size();
         }
@@ -55,6 +57,7 @@ public class GameInstance  {
 
     public boolean removePlayer(Player p){
         boolean rc = players.remove(p);
+        playerTaskCounts.remove(p);
         numPlayers = players.size();
         if(!rc) return false;
         else return true;
@@ -88,6 +91,7 @@ public class GameInstance  {
      * @param p
      */
     public void completeTask(Task complete, Player p){
+        playerTaskCounts.put(p, playerTaskCounts.get(p) + 1);
         lockoutEvents.raise(new TaskCompleteEvent(complete, p));
     }
 
@@ -96,8 +100,7 @@ public class GameInstance  {
     public Set<Player> getPlayers() { return this.players; }
 
     public int getNumTasksCompleted(Player p) {
-        // TODO
-        return 0;
+        return playerTaskCounts.get(p);
     }
 
     public void setNumTasks(int numTasks) {
