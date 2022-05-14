@@ -14,9 +14,8 @@ public class EffectTask extends Task {
     PotionEffect effect;
 
     public EffectTask(GameInstance instance, PotionEffect goal, int diff) {
-        super(instance);
+        super(instance, diff);
         effect = goal;
-        difficulty = diff;
     }
 
     @Override

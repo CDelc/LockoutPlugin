@@ -12,9 +12,8 @@ public class CraftTask extends Task {
     ItemStack craftGoal;
 
     public CraftTask(GameInstance game, ItemStack craftGoal, int diff) {
-        super(game);
+        super(game, diff);
         this.craftGoal = craftGoal;
-        difficulty = diff;
     }
 
     @Override

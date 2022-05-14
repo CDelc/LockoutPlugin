@@ -15,10 +15,9 @@ public class AdvancementTask extends Task {
     String advancementDesc;
 
     public AdvancementTask(GameInstance instance, String advancementKey, String advancementTitle, int diff) {
-        super(instance);
+        super(instance, diff);
         targetAdvancement = advancementKey;
         advancementDesc = advancementTitle;
-        this.difficulty = diff;
     }
 
     @Override

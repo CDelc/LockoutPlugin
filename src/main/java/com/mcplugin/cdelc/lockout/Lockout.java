@@ -15,7 +15,15 @@ public final class Lockout extends JavaPlugin {
         this.getCommand("lockoutaddall").setExecutor(new Lockoutaddall(this));
         this.getCommand("lockoutadd").setExecutor(new Lockoutadd(this));
         this.getCommand("lockoutremove").setExecutor(new Lockoutremove(this));
-        this.getCommand("debugtest").setExecutor(new DebugTest(this));
+        this.getCommand("lockoutabsolutedifficulty").setExecutor(new Lockoutabsolutedifficulty(this));
+        this.getCommand("lockoutmindifficulty").setExecutor(new Lockoutmindifficulty(this));
+        this.getCommand("lockoutmaxdifficulty").setExecutor(new Lockoutmaxdifficulty(this));
+        this.getCommand("lockoutnumtasks").setExecutor(new Lockoutnumtasks(this));
+        this.getCommand("lockoutreset").setExecutor(new Lockoutreset(this));
+        this.getCommand("lockoutsettings").setExecutor(new Lockoutsettings(this));
+        this.getCommand("lockoutstart").setExecutor(new Lockoutstart(this));
+        this.getCommand("lockoutstop").setExecutor(new Lockoutstop(this));
+        this.getCommand("listtasks").setExecutor(new ListTasks(this));
         getServer().getPluginManager().registerEvents(new TaskListener(this), this);
 
     }
@@ -27,5 +35,9 @@ public final class Lockout extends JavaPlugin {
 
     public GameInstance getGame(){
         return lockoutgame;
+    }
+
+    public void resetGame(){
+        this.onEnable();
     }
 }

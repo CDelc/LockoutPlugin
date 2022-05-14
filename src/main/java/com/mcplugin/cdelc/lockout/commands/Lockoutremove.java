@@ -2,6 +2,7 @@ package com.mcplugin.cdelc.lockout.commands;
 
 import com.mcplugin.cdelc.lockout.Lockout;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,11 +25,17 @@ public class Lockoutremove extends LockoutCommand {
         Player target = Bukkit.getPlayer(args[0]);
         if(target == null){
             sender.sendMessage(Color.RED + "Player not found.");
-            return false;
+            return true;
         }
-
-        boolean rc = instance.getGame().removePlayer(target);
+        if(!(game.getPlayers().contains(target))){
+            sender.sendMessage(ChatColor.RED + target.getName() + " not in game.");
+            return true;
+        }
+        boolean rc = game.removePlayer(target);
         if(!rc) sender.sendMessage(Color.RED + "Player not in lockout game.");
-        return false;
+
+        sender.sendMessage(ChatColor.AQUA + target.getName() + ChatColor.DARK_RED + " removed from the game");
+        target.sendMessage(ChatColor.DARK_RED + "You have been removed from the lockout game");
+        return true;
     }
 }

@@ -14,6 +14,30 @@ commands:
   lockoutremove:
     description: Remove the specified player from the lockout game
     usage: /lockoutremove [player]
-  debugtest:
-    description: Undefined Behavior
-    usage: /debugtest
+  lockoutabsolutedifficulty:
+    description: Sets the minimum and maximum task difficulties of the lockout game
+    usage: /lockoutabsolutedifficulty [difficulty]
+  lockoutmaxdifficulty:
+    description: Sets the maximum task difficulty of the lockout game
+    usage: /lockoutmaxdifficulty [difficulty]
+  lockoutmindifficulty:
+    description: Sets the minimum task difficulty of the lockout game
+    usage: /lockoutmindifficulty [difficulty]
+  lockoutnumtasks:
+    description: Sets the number of tasks to be generated in this game
+    usage: /lockoutnumtasks [tasks]
+  lockoutreset:
+    description: Stops any running game and resets all settings to their defaults
+    usage: /lockoutreset
+  lockoutsettings:
+    description: View the current settings of the lockout game
+    usage: /lockoutsettings
+  lockoutstart:
+    description: Start the lockout game
+    usage: /lockoutstart
+  lockoutstop:
+    description: Stop the lockout game
+    usage: /lockoutstop
+  listtasks:
+    description: List the tasks in the lockout game
+    usage: /listtasks

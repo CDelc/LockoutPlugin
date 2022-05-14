@@ -5,15 +5,10 @@ import com.mcplugin.cdelc.lockout.Lockout;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityBreedEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.PlayerAdvancementDoneEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.event.player.PlayerStatisticIncrementEvent;
+import org.bukkit.event.player.*;
 
 public class TaskListener implements Listener {
 
@@ -70,5 +65,30 @@ public class TaskListener implements Listener {
 
     @EventHandler
     public void onPlayerStatisticIncrement(PlayerStatisticIncrementEvent e) { game.sendEventToTasks(e); }
+
+    @EventHandler
+    public void onEntityTransform(EntityTransformEvent e){
+        game.sendEventToTasks(e);
+    }
+
+    @EventHandler
+    public void onBucketEntity(PlayerBucketEntityEvent e){
+        game.sendEventToTasks(e);
+    }
+
+    @EventHandler
+    public void onBucket(PlayerBucketFillEvent e){
+        game.sendEventToTasks(e);
+    }
+
+    @EventHandler
+    public void onXpChange(PlayerLevelChangeEvent e){
+        game.sendEventToTasks(e);
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e){
+        game.sendEventToTasks(e);
+    }
 
 }
