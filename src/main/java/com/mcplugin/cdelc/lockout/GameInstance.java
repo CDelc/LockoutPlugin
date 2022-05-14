@@ -1,15 +1,23 @@
 package com.mcplugin.cdelc.lockout;
 
+import com.mcplugin.cdelc.lockout.events.EventRegistry;
+import com.mcplugin.cdelc.lockout.events.TaskCompleteEvent;
+import com.mcplugin.cdelc.lockout.gui.LockoutGUI;
 import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 public class GameInstance  {
 
     HashSet<Player> players;
+    HashMap<Player, Integer> playerTaskCounts;
+    LockoutGUI gui;
+    EventRegistry lockoutEvents;
 
     boolean isRunning;
 
@@ -30,12 +38,19 @@ public class GameInstance  {
         numPlayers = players.size();
         TasksetGenerator taskGetter = new TasksetGenerator(this);
         taskGetter.populateTaskset(allTasks);
+        gui = new LockoutGUI(this);
+        lockoutEvents = new EventRegistry();
+        lockoutEvents.register(gui);
     }
 
 
     public void addPlayer(Player p){
-        if(!isRunning) players.add(p);
-        numPlayers = players.size();
+        if(!isRunning) {
+            players.add(p);
+            gui.addPlayer(p);
+            numPlayers = players.size();
+        }
+
     }
 
     public boolean removePlayer(Player p){
@@ -63,6 +78,7 @@ public class GameInstance  {
     public boolean start(){
 
         isRunning = true;
+        gui.show();
         return true;
     }
 
@@ -72,7 +88,16 @@ public class GameInstance  {
      * @param p
      */
     public void completeTask(Task complete, Player p){
+        lockoutEvents.raise(new TaskCompleteEvent(complete, p));
+    }
 
+    public Set<Task> getTasks() { return this.selectedTasks; }
+
+    public Set<Player> getPlayers() { return this.players; }
+
+    public int getNumTasksCompleted(Player p) {
+        // TODO
+        return 0;
     }
 
     public void setNumTasks(int numTasks) {
