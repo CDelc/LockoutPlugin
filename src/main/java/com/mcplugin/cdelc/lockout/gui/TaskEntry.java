@@ -21,7 +21,7 @@ public class TaskEntry {
         TEXT_EFFECT_COMPLETE_SUCCESS = txtEffCompleteSuccess;
         TEXT_EFFECT_COMPLETE_FAILURE = txtEffCompleteFail;
 
-        entryText = task.getKeyword();
+        entryText = task.getDescription();
         entryTextEffects = TEXT_EFFECT_INCOMPLETE;
     }
 
@@ -57,6 +57,6 @@ public class TaskEntry {
     }
 
     public boolean isForTask(Task task) {
-        return this.entryText.equals(task.getKeyword());
+        return this.entryText.equals(task.getDescription());
     }
 }
