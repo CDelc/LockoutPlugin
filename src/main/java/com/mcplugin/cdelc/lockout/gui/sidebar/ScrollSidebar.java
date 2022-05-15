@@ -1,6 +1,7 @@
 package com.mcplugin.cdelc.lockout.gui.sidebar;
 
-import org.bukkit.entity.Player;
+import com.mcplugin.cdelc.lockout.gui.GUIListener;
+import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -9,7 +10,7 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.function.Consumer;
 
-public class ScrollSidebar implements Consumer<PlayerItemHeldEvent> {
+public class ScrollSidebar implements Consumer<Event> {
 
     final int maxLine;
 
@@ -32,20 +33,20 @@ public class ScrollSidebar implements Consumer<PlayerItemHeldEvent> {
         }
         visibleLines = new LineData[15];
         for (int i=0; i<15; i++) {
-            Team team = scoreboard.registerNewTeam(generateLineTeamName(i));
+            Team team = scoreboard.registerNewTeam(String.valueOf(i));
             String entry = generateLineEntry(i);
             team.addEntry(entry);
             visibleLines[i] = new LineData(team, entry);
+            sidebar.getScore(entry).setScore(15 - i);
         }
 
-        ScrollListener.singleton().register(this);
+        GUIListener.singleton().register(this);
     }
 
     public void setLine(int line, String content) {
         assert line >= 0 && line < lines.length;
-        if (content.length() > 64) {
-            content = content.substring(0, 61) + "...";
-        }
+        if (content.length() > 64) content = content.substring(0, 61) + "...";
+        else content = String.format("%-64s", content);
         lines[line] = content;
 
         int visibleIndex = line - currentLine;
@@ -54,16 +55,8 @@ public class ScrollSidebar implements Consumer<PlayerItemHeldEvent> {
         }
     }
 
-    public void pageDown() {
-        int newLine = Math.min(currentLine + 15, maxLine);
-        if (newLine != currentLine) {
-            currentLine = newLine;
-            updateAll();
-        }
-    }
-
-    public void pageUp() {
-        int newLine = Math.max(currentLine - 15, 0);
+    public void scroll(int numLines) {
+        int newLine = Math.max(Math.min(currentLine + numLines, maxLine), 0);
         if (newLine != currentLine) {
             currentLine = newLine;
             updateAll();
@@ -88,19 +81,18 @@ public class ScrollSidebar implements Consumer<PlayerItemHeldEvent> {
         return lineEntry.toString();
     }
 
-    private String generateLineTeamName(int line) {
-        return super.toString() + "line" + line;
-    }
-
     /**
-     * Handles PlayerItemHeldEvents given by the ScrollListener
-     * @param playerItemHeldEvent
+     * Handles PlayerItemHeldEvents given by the GUIListener
+     * Discards all events but PlayerItemHeldEvent
+     * @param event
      */
     @Override
-    public void accept(PlayerItemHeldEvent playerItemHeldEvent) {
+    public void accept(Event event) {
+        if (!(event instanceof PlayerItemHeldEvent)) return;
+        PlayerItemHeldEvent playerItemHeldEvent = (PlayerItemHeldEvent) event;
         int diff = playerItemHeldEvent.getNewSlot() - playerItemHeldEvent.getPreviousSlot();
-        if (diff == 1 || diff == -8) pageUp();
-        else if (diff == -1 || diff == 8) pageDown();
+        if (diff == 1 || diff == -8) scroll(3);
+        else if (diff == -1 || diff == 8) scroll(-3);
     }
 
     /**
@@ -112,11 +104,7 @@ public class ScrollSidebar implements Consumer<PlayerItemHeldEvent> {
             lineData.getTeam().unregister();
         }
         sidebar.unregister();
-        ScrollListener.singleton().unregister(this);
-    }
-
-    public void show(Player p){
-        p.setScoreboard(scoreboard);
+        GUIListener.singleton().unregister(this);
     }
 
     private static class LineData {

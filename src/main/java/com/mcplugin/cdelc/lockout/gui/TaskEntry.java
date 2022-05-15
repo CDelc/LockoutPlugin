@@ -45,7 +45,7 @@ public class TaskEntry {
 
     public void complete(boolean thisPlayer) {
         if (thisPlayer) {
-            entryTextEffects = ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH;
+            entryTextEffects = ChatColor.GREEN + "" + ChatColor.STRIKETHROUGH;
         } else {
             entryTextEffects = ChatColor.RED + "" + ChatColor.STRIKETHROUGH;
         }
@@ -53,7 +53,7 @@ public class TaskEntry {
 
     @Override
     public String toString() {
-        return entryTextEffects + entryText;
+        return entryTextEffects + entryText + ChatColor.RESET;
     }
 
     public boolean isForTask(Task task) {

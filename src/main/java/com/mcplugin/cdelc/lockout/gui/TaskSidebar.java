@@ -14,20 +14,9 @@ public class TaskSidebar {
     LockoutScoreboard scoreboard;
     ScrollSidebar sidebar;
 
-    public TaskSidebar(LockoutScoreboard scoreboard, Collection<Task> tasks) {
+    public TaskSidebar(LockoutScoreboard scoreboard) {
         this.scoreboard = scoreboard;
-        sidebar = new ScrollSidebar(
-                scoreboard.getScoreboard(),
-                ChatColor.DARK_RED + "LOCKOUT" + ChatColor.BOLD,
-                tasks.size()
-        );
         taskEntryLines = new HashMap<>();
-        Iterator<Task> taskIter = tasks.iterator();
-        for (int i=0; i<tasks.size(); i++) {
-            TaskEntry entry = new TaskEntry(taskIter.next());
-            taskEntryLines.put(entry, i);
-            sidebar.setLine(i, entry.toString());
-        }
     }
 
     public void unregister() {
@@ -44,8 +33,18 @@ public class TaskSidebar {
         sidebar.setLine(line, entry.toString());
     }
 
-    public void show() {
-        sidebar.show(scoreboard.getOwner());
-    }
+    public void registerTasks(Collection<Task> tasks) {
+        sidebar = new ScrollSidebar(
+                scoreboard.getScoreboard(),
+                ChatColor.DARK_RED + "" + ChatColor.BOLD + "LOCKOUT",
+                tasks.size()
+        );
 
+        Iterator<Task> taskIter = tasks.iterator();
+        for (int i=0; i<tasks.size(); i++) {
+            TaskEntry entry = new TaskEntry(taskIter.next());
+            taskEntryLines.put(entry, i);
+            sidebar.setLine(i, entry.toString());
+        }
+    }
 }

@@ -1,17 +1,18 @@
 package com.mcplugin.cdelc.lockout;
 
 import com.mcplugin.cdelc.lockout.commands.*;
-import com.mcplugin.cdelc.lockout.gui.sidebar.ScrollListener;
+import com.mcplugin.cdelc.lockout.gui.GUIListener;
 import com.mcplugin.cdelc.lockout.tasks.TaskListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Lockout extends JavaPlugin {
 
+    static Lockout instance;
     GameInstance lockoutgame;
 
     @Override
     public void onEnable() {
-
+        instance = this;
         lockoutgame = new GameInstance();
         this.getCommand("lockoutaddall").setExecutor(new Lockoutaddall(this));
         this.getCommand("lockoutadd").setExecutor(new Lockoutadd(this));
@@ -26,8 +27,7 @@ public final class Lockout extends JavaPlugin {
         this.getCommand("lockoutstop").setExecutor(new Lockoutstop(this));
         this.getCommand("listtasks").setExecutor(new ListTasks(this));
         getServer().getPluginManager().registerEvents(new TaskListener(this), this);
-        getServer().getPluginManager().registerEvents(new ScrollListener(), this);
-
+        getServer().getPluginManager().registerEvents(GUIListener.singleton(), this);
     }
 
     @Override
@@ -41,5 +41,9 @@ public final class Lockout extends JavaPlugin {
 
     public void resetGame(){
         this.onEnable();
+    }
+
+    public static Lockout getPluginInstance() {
+        return instance;
     }
 }

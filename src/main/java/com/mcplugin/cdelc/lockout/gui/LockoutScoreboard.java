@@ -4,32 +4,31 @@ import com.mcplugin.cdelc.lockout.GameInstance;
 import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
+import org.bukkit.scoreboard.*;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public class LockoutScoreboard {
 
     GameInstance instance;
-    Player owner;
+    UUID ownerUUID;
 
     Scoreboard scoreboard;
     TaskSidebar sidebar;
     Objective tasksCompleted;
+    boolean isVisible;
 
     public LockoutScoreboard(GameInstance instance, Player owner) {
         this.instance = instance;
-        this.owner = owner;
+        this.ownerUUID = owner.getUniqueId();
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        this.sidebar = new TaskSidebar(this, instance.getTasks());
+        this.sidebar = new TaskSidebar(this);
         this.tasksCompleted = scoreboard.registerNewObjective(
                 "tasksCompleted", "dummy", "Tasks Completed"
         );
         tasksCompleted.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-        tasksCompleted.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        isVisible = false;
     }
 
     public Scoreboard getScoreboard() {
@@ -37,7 +36,11 @@ public class LockoutScoreboard {
     }
 
     public Player getOwner() {
-        return owner;
+        return Bukkit.getPlayer(ownerUUID);
+    }
+
+    public boolean isVisible() {
+        return isVisible;
     }
 
     public void onTaskComplete(Task task, Player whoCompleted) {
@@ -46,8 +49,17 @@ public class LockoutScoreboard {
     }
 
     public void show() {
-        owner.setScoreboard(scoreboard);
-        sidebar.show();
+        getOwner().setScoreboard(scoreboard);
+        isVisible = true;
+    }
+
+    public void hide(Scoreboard replacement) {
+        getOwner().setScoreboard(replacement);
+        isVisible = false;
+    }
+
+    public void hide() {
+        hide(Bukkit.getScoreboardManager().getMainScoreboard());
     }
 
     public void addPlayer(Player p) {
@@ -59,5 +71,14 @@ public class LockoutScoreboard {
     public void removePlayer(Player p) {
         Team playerTeam = scoreboard.getEntryTeam(p.getName());
         if (playerTeam != null) playerTeam.unregister();
+    }
+
+    public void registerTasks(Collection<Task> tasks) {
+        sidebar.registerTasks(tasks);
+    }
+
+    public void unregister() {
+        hide();
+        sidebar.unregister();
     }
 }

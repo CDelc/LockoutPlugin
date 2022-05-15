@@ -1,6 +1,8 @@
 package com.mcplugin.cdelc.lockout;
 
 import com.mcplugin.cdelc.lockout.events.EventRegistry;
+import com.mcplugin.cdelc.lockout.events.LockoutStartEvent;
+import com.mcplugin.cdelc.lockout.events.LockoutStopEvent;
 import com.mcplugin.cdelc.lockout.events.TaskCompleteEvent;
 import com.mcplugin.cdelc.lockout.gui.GUIManager;
 import com.mcplugin.cdelc.lockout.tasks.Task;
@@ -20,7 +22,6 @@ public class GameInstance  {
     HashSet<Player> players;
     HashMap<Player, Integer> playerTaskCounts;
     GUIManager gui;
-    EventRegistry lockoutEvents;
 
     boolean isRunning;
 
@@ -52,8 +53,6 @@ public class GameInstance  {
         taskGetter.populateTaskset(allTasks);
         playerTaskCounts = new HashMap<>();
         gui = new GUIManager(this);
-        lockoutEvents = new EventRegistry();
-        lockoutEvents.register(gui);
     }
 
     public void clear(){
@@ -120,7 +119,7 @@ public class GameInstance  {
         }
 
         isRunning = true;
-        gui.show();
+        Bukkit.getPluginManager().callEvent(new LockoutStartEvent(this));
         return true;
     }
 
@@ -129,6 +128,7 @@ public class GameInstance  {
         selectedTasks.clear();
         for(Player p : Bukkit.getServer().getOnlinePlayers()) p.setGameMode(GameMode.SURVIVAL);
         taskGetter.populateTaskset(allTasks);
+        Bukkit.getPluginManager().callEvent(new LockoutStopEvent(this));
         return true;
     }
 
@@ -142,7 +142,7 @@ public class GameInstance  {
             player.sendMessage(ChatColor.AQUA + p.getDisplayName() + ChatColor.WHITE + " has completed " + ChatColor.YELLOW + complete.getDescription());
         }
         playerTaskCounts.put(p, playerTaskCounts.get(p) + 1);
-        lockoutEvents.raise(new TaskCompleteEvent(complete, p));
+        Bukkit.getPluginManager().callEvent(new TaskCompleteEvent(this, complete, p));
     }
 
     public Set<Task> getTasks() { return this.selectedTasks; }
