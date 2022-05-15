@@ -2,7 +2,7 @@ package com.mcplugin.cdelc.lockout;
 
 import com.mcplugin.cdelc.lockout.events.EventRegistry;
 import com.mcplugin.cdelc.lockout.events.TaskCompleteEvent;
-import com.mcplugin.cdelc.lockout.gui.LockoutGUI;
+import com.mcplugin.cdelc.lockout.gui.GUIManager;
 import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ public class GameInstance  {
 
     HashSet<Player> players;
     HashMap<Player, Integer> playerTaskCounts;
-    LockoutGUI gui;
+    GUIManager gui;
     EventRegistry lockoutEvents;
 
     boolean isRunning;
@@ -51,7 +51,7 @@ public class GameInstance  {
 
         taskGetter.populateTaskset(allTasks);
         playerTaskCounts = new HashMap<>();
-        gui = new LockoutGUI(this);
+        gui = new GUIManager(this);
         lockoutEvents = new EventRegistry();
         lockoutEvents.register(gui);
     }

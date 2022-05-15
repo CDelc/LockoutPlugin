@@ -3,25 +3,23 @@ package com.mcplugin.cdelc.lockout.gui;
 import com.mcplugin.cdelc.lockout.GameInstance;
 import com.mcplugin.cdelc.lockout.events.LockoutEventListener;
 import com.mcplugin.cdelc.lockout.events.TaskCompleteEvent;
-import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LockoutGUI implements LockoutEventListener {
+public class GUIManager implements LockoutEventListener {
 
     GameInstance instance;
     Set<LockoutScoreboard> scoreboards;
 
-    public LockoutGUI(GameInstance instance) {
+    public GUIManager(GameInstance instance) {
         this.instance = instance;
         this.scoreboards = new HashSet<>();
     }
 
-    public LockoutGUI(GameInstance instance, Collection<Player> players) {
+    public GUIManager(GameInstance instance, Collection<Player> players) {
         this(instance);
         players.forEach(this::addPlayer);
     }
