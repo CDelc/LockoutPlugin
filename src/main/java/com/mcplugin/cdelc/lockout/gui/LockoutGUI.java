@@ -5,6 +5,7 @@ import com.mcplugin.cdelc.lockout.events.LockoutEventListener;
 import com.mcplugin.cdelc.lockout.events.TaskCompleteEvent;
 import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,7 +28,7 @@ public class LockoutGUI implements LockoutEventListener {
 
     public void addPlayer(Player p) {
         scoreboards.add(new LockoutScoreboard(instance, p));
-        scoreboards.forEach(scoreboard -> addPlayer(p));
+        for(LockoutScoreboard s : scoreboards) s.addPlayer(p);
     }
 
     public void removePlayer(Player p) {
@@ -41,6 +42,6 @@ public class LockoutGUI implements LockoutEventListener {
     }
 
     public void show() {
-        scoreboards.forEach(LockoutScoreboard::show);
+        for(LockoutScoreboard s : scoreboards) s.show();
     }
 }
