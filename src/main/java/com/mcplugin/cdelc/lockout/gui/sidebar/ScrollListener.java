@@ -14,7 +14,7 @@ public class ScrollListener implements Listener {
 
     private Set<Consumer<PlayerItemHeldEvent>> subscribers;
 
-    private ScrollListener() {
+    public ScrollListener() {
         subscribers = new HashSet<>();
     }
 

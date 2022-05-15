@@ -47,6 +47,7 @@ public class LockoutScoreboard {
 
     public void show() {
         owner.setScoreboard(scoreboard);
+        sidebar.show();
     }
 
     public void addPlayer(Player p) {

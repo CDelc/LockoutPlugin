@@ -44,4 +44,8 @@ public class TaskSidebar {
         sidebar.setLine(line, entry.toString());
     }
 
+    public void show() {
+        sidebar.show(scoreboard.getOwner());
+    }
+
 }

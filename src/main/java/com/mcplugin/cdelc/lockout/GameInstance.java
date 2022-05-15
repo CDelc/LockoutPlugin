@@ -60,10 +60,6 @@ public class GameInstance  {
         allTasks.clear();
     }
 
-    public HashSet<Task> getSelectedTasks() {
-        return selectedTasks;
-    }
-
     public void addPlayer(Player p){
         if(!isRunning) {
             players.add(p);
@@ -71,7 +67,6 @@ public class GameInstance  {
             gui.addPlayer(p);
             numPlayers = players.size();
         }
-
     }
 
     public boolean removePlayer(Player p){

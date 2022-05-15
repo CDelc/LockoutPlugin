@@ -13,7 +13,7 @@ public class ListTasks extends LockoutCommand{
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        for(Task t : game.getSelectedTasks()) sender.sendMessage(ChatColor.AQUA + t.getDescription());
+        for(Task t : game.getTasks()) sender.sendMessage(ChatColor.AQUA + t.getDescription());
         return true;
     }
 }

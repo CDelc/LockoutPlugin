@@ -1,5 +1,6 @@
 package com.mcplugin.cdelc.lockout.gui.sidebar;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -112,6 +113,10 @@ public class ScrollSidebar implements Consumer<PlayerItemHeldEvent> {
         }
         sidebar.unregister();
         ScrollListener.singleton().unregister(this);
+    }
+
+    public void show(Player p){
+        p.setScoreboard(scoreboard);
     }
 
     private static class LineData {
