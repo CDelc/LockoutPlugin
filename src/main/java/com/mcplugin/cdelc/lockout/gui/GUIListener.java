@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -59,6 +60,11 @@ public class GUIListener implements Listener {
 
     @EventHandler
     public void onLockoutStop(LockoutStopEvent e) {
+        raiseGenericEvent(e);
+    }
+
+    @EventHandler
+    public void onToggleCrouch(PlayerToggleSneakEvent e) {
         raiseGenericEvent(e);
     }
 

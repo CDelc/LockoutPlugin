@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,7 +16,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 public class GUIManager implements Consumer<Event> {
-
     GameInstance instance;
     Map<UUID, LockoutScoreboard> scoreboards;
 
@@ -80,6 +80,15 @@ public class GUIManager implements Consumer<Event> {
     public void onLockoutStartEvent(LockoutStartEvent e) {
         for (LockoutScoreboard s : scoreboards.values()) s.registerTasks(instance.getTasks());
         showAll();
+    }
+
+    public void onToggleCrouch(PlayerToggleSneakEvent e) {
+        UUID uid = e.getPlayer().getUniqueId();
+        if (e.isSneaking() && scoreboards.containsKey(uid)) {
+            LockoutScoreboard sc = scoreboards.get(uid);
+            if (sc.isVisible()) sc.hide();
+            else sc.show();
+        }
     }
 
     public void unregister() {
