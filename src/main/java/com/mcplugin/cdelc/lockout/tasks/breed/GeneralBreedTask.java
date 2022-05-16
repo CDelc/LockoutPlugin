@@ -2,10 +2,12 @@ package com.mcplugin.cdelc.lockout.tasks.breed;
 
 import com.mcplugin.cdelc.lockout.GameInstance;
 import com.mcplugin.cdelc.lockout.tasks.Task;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityBreedEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 
 public class GeneralBreedTask extends Task {
     public GeneralBreedTask(GameInstance instance, int diff) {

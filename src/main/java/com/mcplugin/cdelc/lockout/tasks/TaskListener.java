@@ -2,6 +2,8 @@ package com.mcplugin.cdelc.lockout.tasks;
 
 import com.mcplugin.cdelc.lockout.GameInstance;
 import com.mcplugin.cdelc.lockout.Lockout;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -55,6 +57,11 @@ public class TaskListener implements Listener {
 
     @EventHandler
     public void onBreed(EntityBreedEvent e){
+        game.sendEventToTasks(e);
+    }
+
+    @EventHandler
+    void onEntitySpawn(EntitySpawnEvent e){
         game.sendEventToTasks(e);
     }
 

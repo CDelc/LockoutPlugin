@@ -5,15 +5,12 @@ import com.mcplugin.cdelc.lockout.events.TaskCompleteEvent;
 import com.mcplugin.cdelc.lockout.gui.LockoutGUI;
 import com.mcplugin.cdelc.lockout.tasks.Task;
 import org.bukkit.*;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.potion.PotionEffect;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Random;
+import java.util.*;
 
 public class GameInstance  {
 
@@ -112,6 +109,29 @@ public class GameInstance  {
             p.setHealth(20); //Heal
             p.setFoodLevel(20); //Saturate
             for(PotionEffect eff : p.getActivePotionEffects()) p.removePotionEffect(eff.getType()); //Remove all potion effects
+            EnumSet<Statistic> stats = EnumSet.allOf(Statistic.class);
+            for(Statistic s : stats){
+                try{
+                    p.setStatistic(s, 0);
+                }catch(IllegalArgumentException e){
+                    continue;
+                }
+                for(Material m : Material.values()){
+                    try{
+                        p.setStatistic(s, m, 0);
+                    }catch(IllegalArgumentException e){
+                        break;
+                    }
+                }
+                for(EntityType t : EntityType.values()){
+                    try{
+                        p.setStatistic(s, t, 0);
+                    }catch (IllegalArgumentException e){
+                        break;
+                    }
+                }
+            }
+
 
         }
 

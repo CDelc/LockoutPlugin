@@ -10,8 +10,10 @@ import com.mcplugin.cdelc.lockout.tasks.get.GetXpLevel;
 import com.mcplugin.cdelc.lockout.tasks.kill.DrownZombie;
 import com.mcplugin.cdelc.lockout.tasks.kill.KillMobEndCrystal;
 import com.mcplugin.cdelc.lockout.tasks.kill.KillTask;
+import com.mcplugin.cdelc.lockout.tasks.statistic.StatisticTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -36,8 +38,16 @@ public class TasksetGenerator implements Runnable{
         tasks.clear();
         getKillTasks(tasks);
         getCollectTasks(tasks);
+        getBreedTasks(tasks);
+        getStatTasks(tasks);
 
         addToSet(new SleepTask(game, 0), tasks);
+
+    }
+
+    private void getStatTasks(ArrayList<Task> tasks) {
+
+        addToSet(new StatisticTask(game, Statistic.CROUCH_ONE_CM, (rng.nextInt(51) + 50) * 100, 0), tasks);
 
     }
 
