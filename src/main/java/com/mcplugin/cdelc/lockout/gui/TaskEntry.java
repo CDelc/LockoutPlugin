@@ -5,58 +5,64 @@ import org.bukkit.ChatColor;
 
 public class TaskEntry {
 
-    static final String DEFAULT_TEXT_EFFECT_INCOMPLETE = "";
-    static final String DEFAULT_TEXT_EFFECT_COMPLETE_SUCCESS = ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH;
-    static final String DEFAULT_TEXT_EFFECT_COMPLETE_FAILURE = ChatColor.RED + "" + ChatColor.STRIKETHROUGH;
+    static final String TEXT_EFFECT_INCOMPLETE = "";
+    static final String TEXT_EFFECT_SUCCESS = ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH;
+    static final String TEXT_EFFECT_FAILURE = ChatColor.RED + "" + ChatColor.STRIKETHROUGH;
 
-    final String TEXT_EFFECT_INCOMPLETE;
-    final String TEXT_EFFECT_COMPLETE_SUCCESS;
-    final String TEXT_EFFECT_COMPLETE_FAILURE;
 
     String entryText;
-    String entryTextEffects; // Made of ChatColor enum toString output
-
-    public TaskEntry(Task task, String txtEffIncomplete, String txtEffCompleteSuccess, String txtEffCompleteFail) {
-        TEXT_EFFECT_INCOMPLETE = txtEffIncomplete;
-        TEXT_EFFECT_COMPLETE_SUCCESS = txtEffCompleteSuccess;
-        TEXT_EFFECT_COMPLETE_FAILURE = txtEffCompleteFail;
-
-        entryText = task.getDescription();
-        entryTextEffects = TEXT_EFFECT_INCOMPLETE;
-    }
-
-    public TaskEntry(Task task, String txtEffIncomplete) {
-        this(
-                task,
-                txtEffIncomplete,
-                DEFAULT_TEXT_EFFECT_COMPLETE_SUCCESS,
-                DEFAULT_TEXT_EFFECT_COMPLETE_FAILURE
-        );
-    }
+    EntryState state; // Made of ChatColor enum toString output
 
     public TaskEntry(Task task) {
-        this(
-                task,
-                DEFAULT_TEXT_EFFECT_INCOMPLETE,
-                DEFAULT_TEXT_EFFECT_COMPLETE_SUCCESS,
-                DEFAULT_TEXT_EFFECT_COMPLETE_FAILURE
-        );
+        entryText = taskRepr(task);
+        state = EntryState.INCOMPLETE;
     }
 
     public void complete(boolean thisPlayer) {
         if (thisPlayer) {
-            entryTextEffects = ChatColor.GREEN + "" + ChatColor.STRIKETHROUGH;
+            setState(EntryState.SUCCESS);
         } else {
-            entryTextEffects = ChatColor.RED + "" + ChatColor.STRIKETHROUGH;
+            setState(EntryState.FAILURE);
         }
+    }
+
+    public EntryState getState() {
+        return state;
+    }
+
+    public void setState(EntryState state) {
+        this.state = state;
     }
 
     @Override
     public String toString() {
-        return entryTextEffects + entryText + ChatColor.RESET;
+        return state.textEffect() + entryText + ChatColor.RESET;
     }
 
+    /**
+     * Checks whether the given task is represented by this entry's text
+     * @param task
+     * @return
+     */
     public boolean isForTask(Task task) {
-        return this.entryText.equals(task.getDescription());
+        return this.entryText.equals(taskRepr(task));
+    }
+
+    private String taskRepr(Task task) {
+        return task.getDescription();
+    }
+
+    public enum EntryState {
+        INCOMPLETE(TEXT_EFFECT_INCOMPLETE),
+        SUCCESS(TEXT_EFFECT_SUCCESS),
+        FAILURE(TEXT_EFFECT_FAILURE);
+
+        final String TEXT_EFFECT;
+
+        EntryState(String effect) { TEXT_EFFECT = effect; }
+
+        public String textEffect() {
+            return TEXT_EFFECT;
+        }
     }
 }

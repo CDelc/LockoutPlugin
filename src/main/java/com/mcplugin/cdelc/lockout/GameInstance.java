@@ -57,6 +57,7 @@ public class GameInstance  {
 
     public void clear(){
         allTasks.clear();
+        gui.unregister();
     }
 
     public void addPlayer(Player p){

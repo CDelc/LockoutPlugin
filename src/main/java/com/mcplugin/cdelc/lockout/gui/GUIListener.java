@@ -68,6 +68,10 @@ public class GUIListener implements Listener {
         raiseGenericEvent(e);
     }
 
+    /**
+     * Send event to all subscribers
+     * @param e
+     */
     private void raiseGenericEvent(Event e) {
         for (Consumer<Event> subscriber : subscribers) {
             subscriber.accept(e);

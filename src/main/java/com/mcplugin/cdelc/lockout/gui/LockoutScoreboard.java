@@ -15,20 +15,22 @@ public class LockoutScoreboard {
     UUID ownerUUID;
 
     Scoreboard scoreboard;
+    Scoreboard fallbackScoreboard;
     TaskSidebar sidebar;
     Objective tasksCompleted;
-    boolean isVisible;
 
     public LockoutScoreboard(GameInstance instance, Player owner) {
         this.instance = instance;
         this.ownerUUID = owner.getUniqueId();
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        this.fallbackScoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         this.sidebar = new TaskSidebar(this);
         this.tasksCompleted = scoreboard.registerNewObjective(
                 "tasksCompleted", "dummy", "Tasks Completed"
         );
         tasksCompleted.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-        isVisible = false;
+
+        sidebar.show();
     }
 
     public Scoreboard getScoreboard() {
@@ -39,27 +41,46 @@ public class LockoutScoreboard {
         return Bukkit.getPlayer(ownerUUID);
     }
 
+    /**
+     * Gets whether the scoreboard is being shown to its owner
+     * @return
+     */
     public boolean isVisible() {
-        return isVisible;
+        return getOwner().getScoreboard().equals(scoreboard);
     }
 
+    /**
+     * Sets the scoreboard that will be fallen back on when this scoreboard is hidden.
+     *
+     * Set to Bukkit.getScoreboardMangaer().getMainScoreboard() by default
+     * @param scoreboard
+     */
+    public void setFallbackScoreboard(Scoreboard scoreboard) {
+        fallbackScoreboard = scoreboard;
+    }
+
+    /**
+     * Updates sidebar display and player score
+     * @param task
+     * @param whoCompleted
+     */
     public void onTaskComplete(Task task, Player whoCompleted) {
         sidebar.onTaskComplete(task, whoCompleted);
         tasksCompleted.getScore(whoCompleted.getName()).setScore(instance.getNumTasksCompleted(whoCompleted));
     }
 
+    /**
+     * Shows this scoreboard to the owner
+     */
     public void show() {
         getOwner().setScoreboard(scoreboard);
-        isVisible = true;
     }
 
-    public void hide(Scoreboard replacement) {
-        getOwner().setScoreboard(replacement);
-        isVisible = false;
-    }
-
+    /**
+     * Hides this scoreboard from the owner
+     */
     public void hide() {
-        hide(Bukkit.getScoreboardManager().getMainScoreboard());
+        getOwner().setScoreboard(fallbackScoreboard);
     }
 
     public void addPlayer(Player p) {
@@ -73,12 +94,31 @@ public class LockoutScoreboard {
         if (playerTeam != null) playerTeam.unregister();
     }
 
+    /**
+     * Register a set of
+     * @param tasks
+     */
     public void registerTasks(Collection<Task> tasks) {
         sidebar.registerTasks(tasks);
     }
 
+    /**
+     * Unregisters this scoreboard's resources
+     */
     public void unregister() {
         hide();
         sidebar.unregister();
+    }
+
+    /**
+     * Clears all tracked information about tasks
+     */
+    public void clear() {
+        for (String entry : scoreboard.getEntries()) {
+            if (tasksCompleted.getScore(entry).isScoreSet()) {
+                tasksCompleted.getScore(entry).setScore(0);
+            }
+        }
+        sidebar.clear();
     }
 }
